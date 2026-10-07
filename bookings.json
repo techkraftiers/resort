@@ -1,0 +1,11 @@
+[
+  {
+    "fullName": "Test User",
+    "mobile": "1234567890",
+    "email": "test@example.com",
+    "roomType": "Deluxe Room",
+    "message": "Test booking",
+    "timestamp": "2026-06-04T04:48:27.360Z",
+    "receivedAt": "2026-06-04T04:48:27.380Z"
+  }
+]

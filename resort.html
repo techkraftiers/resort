@@ -1,0 +1,927 @@
+﻿0<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Luxury Paradise Resort</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:Segoe UI,sans-serif}
+body{background:#f5f8fb;color:#222;line-height:1.6}
+.hero{position:relative;height:100vh;display:flex;align-items:center;justify-content:center;text-align:center;color:#fff;background:#000;overflow:hidden}
+.hero video{position:absolute;inset:0;width:100%;height:100%;min-width:100%;min-height:100%;object-fit:cover;z-index:1;transform:scale(1.05);animation:heroKenBurns 30s ease-in-out infinite alternate;}
+.hero::after{content:'';position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,.35),rgba(0,0,0,.55));z-index:2}
+.hero .content{position:relative;z-index:3;background:rgba(0,0,0,.45);padding:40px;border-radius:20px}
+
+@keyframes heroKenBurns{
+    0%{transform:scale(1.05) translate(0,0);opacity:1;}
+    50%{transform:scale(1.12) translate(2%,1%);opacity:.96;}
+    100%{transform:scale(1.08) translate(-2%,-1%);opacity:1;}
+}
+.hero h1{font-size:65px}
+section{padding:80px 8%}
+.about-section{padding:60px 8%;background:linear-gradient(180deg,rgba(255,255,255,.98),rgba(249,250,251,.98));}
+.about-inner{max-width:1200px;margin:0 auto;display:grid;grid-template-columns:1.1fr .9fr;gap:40px;align-items:center;}
+.about-copy{text-align:left;}
+.about-copy h2{font-size:3rem;color:#0f766e;margin-bottom:20px;letter-spacing:.02em;}
+.about-copy p{font-size:1.05rem;line-height:1.85;color:#334155;margin-bottom:30px;max-width:700px;}
+.about-buttons{display:flex;flex-wrap:wrap;gap:12px;margin-bottom:30px;}
+.toggle-btn{border:1px solid #cbd5e1;background:#fff;color:#0f172a;padding:14px 24px;border-radius:999px;cursor:pointer;transition:.25s ease, transform .25s ease;}
+.toggle-btn:hover{transform:translateY(-1px);}
+.toggle-btn.active{background:#0f766e;color:#fff;border-color:#0f766e;}
+.about-cards{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px;}
+.about-card{border:1px solid #e2e8f0;border-radius:24px;padding:28px;background:#fff;box-shadow:0 18px 45px rgba(15,23,42,.08);cursor:pointer;transition:transform .25s,box-shadow .25s,border-color .25s;}
+.about-card:hover{transform:translateY(-3px);border-color:#cbd5e1;}
+.about-card.active{border-color:#0f766e;box-shadow:0 22px 55px rgba(15,118,110,.14);}
+.about-card h3{margin-bottom:12px;color:#0f172a;font-size:1.15rem;}
+.about-card p{color:#475569;line-height:1.8;}
+@media(max-width:991px){.about-inner{grid-template-columns:1fr;}.about-cards{grid-template-columns:1fr;}}
+h2{text-align:center;margin-bottom:30px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:25px}
+.card{background:#fff;border-radius:20px;overflow:hidden;box-shadow:0 10px 25px rgba(0,0,0,.12);transition:.3s}
+.card:hover{transform:translateY(-8px)}
+.card img{width:100%;height:220px;object-fit:cover}
+.card div{padding:20px}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:20px}
+.stat{background:linear-gradient(135deg,#0f766e,#14b8a6);color:#fff;padding:35px;border-radius:20px;text-align:center}
+.stat h3{font-size:42px}
+.offer{background:#0f172a;color:#fff;text-align:center}
+.contact{background:#111827;color:white;border-radius:20px;padding:30px}
+.gallery img{height:280px}
+.gallery-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+    gap:18px;
+    align-items:stretch;
+}
+.gallery-item{
+    position:relative;
+    overflow:hidden;
+    border-radius:16px;
+    box-shadow:0 8px 20px rgba(0,0,0,0.08);
+}
+.gallery-item img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    display:block;
+    transition:transform .35s ease, filter .35s ease;
+}
+.gallery-item:hover img{transform:scale(1.05);filter:brightness(.95)}
+
+/* Lightbox styles */
+.lightbox{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,0.85);z-index:2000;padding:30px}
+.lightbox.hidden{display:none}
+.lightbox-content{max-width:1200px;width:100%;max-height:90vh;position:relative;display:flex;align-items:center;justify-content:center}
+.lightbox-content img{max-width:100%;max-height:90vh;border-radius:12px;box-shadow:0 20px 60px rgba(0,0,0,0.6)}
+.lightbox-close{position:absolute;right:-6px;top:-6px;background:#fff;color:#111;border-radius:50%;width:42px;height:42px;display:inline-flex;align-items:center;justify-content:center;cursor:pointer;font-size:20px}
+.lightbox-nav{position:absolute;left:12px;right:12px;top:50%;transform:translateY(-50%);display:flex;justify-content:space-between;pointer-events:none}
+.lightbox-nav button{pointer-events:auto;background:rgba(255,255,255,0.9);border:none;width:48px;height:48px;border-radius:50%;cursor:pointer;font-size:22px;display:inline-flex;align-items:center;justify-content:center}
+
+@media(max-width:600px){
+    .lightbox{padding:12px}
+    .lightbox-close{width:36px;height:36px;font-size:18px}
+}
+form{display:grid;gap:12px;max-width:700px;margin:auto}
+input,textarea,select{padding:14px;border:1px solid #ccc;border-radius:10px}
+button{background:#f59e0b;color:white;border:none;padding:15px;border-radius:10px}
+.availability-box{
+    max-width:700px;
+    margin:0 auto 25px;
+    padding:18px 22px;
+    border:1px solid #e2e8f0;
+    border-radius:18px;
+    background:#fff;
+    box-shadow:0 10px 20px rgba(15,23,42,0.05);
+    text-align:center;
+    color:#111827;
+    line-height:1.6;
+}
+.availability-box strong{color:#0f766e;}
+.faq-section{
+    padding:100px 8%;
+    background:#f7f7f7;
+}
+
+.faq-title{
+    text-align:center;
+    font-size:55px;
+    color:#0f766e;
+    margin-bottom:50px;
+    font-family:serif;
+}
+
+.faq-item{
+    background:#fff;
+    border-radius:20px;
+    margin-bottom:20px;
+    overflow:hidden;
+    box-shadow:0 10px 25px rgba(0,0,0,0.08);
+}
+
+.faq-question{
+    padding:25px 30px;
+    font-size:22px;
+    font-weight:600;
+    cursor:pointer;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+}
+
+.faq-answer{
+    max-height:0;
+    overflow:hidden;
+    transition:0.4s;
+    padding:0 30px;
+    font-size:18px;
+}
+
+.faq-item.active .faq-answer{
+    max-height:200px;
+    padding:0 30px 25px;
+}
+
+.faq-item.active .faq-question{
+    color:#0f766e;
+}
+
+
+.timeless-section{
+    max-width:1400px;
+    margin:auto;
+    padding:60px 40px;
+    display:flex;
+    gap:40px;
+    align-items:center;
+    background:#0f172a;
+    border-radius:32px;
+}
+
+.timeless-card{
+    width:340px;
+    min-width:340px;
+    border:1px solid rgba(212,175,55,0.2);
+    border-radius:28px;
+    padding:60px 40px;
+    text-align:center;
+    background:rgba(15,23,42,0.95);
+}
+
+.timeless-card h1{
+    font-size:44px;
+    color:#D4AF37;
+    line-height:1.1;
+    font-family:Georgia, 'Times New Roman', serif;
+    font-weight:700;
+    letter-spacing:0.08em;
+    text-transform:uppercase;
+    margin:0 0 24px;
+    text-align:left;
+}
+
+.timeless-card p{
+    font-size:20px;
+    line-height:1.85;
+    color:#e7d8a1;
+    font-family:'Segoe UI', sans-serif;
+    margin:0 auto;
+    max-width:320px;
+
+}
+
+.explore-btn{
+    display:inline-flex;
+    gap:10px;
+    background:#c8a04d;
+    color:#c65f0a;
+    padding:15px 32px;
+    border-radius:50px;
+    text-decoration:none;
+    margin-top:30px;
+    font-weight:600;
+}
+
+.gallery-container{
+    flex:1;
+    position:relative;
+}
+
+.main-image{
+    width:100%;
+    height:520px;
+    object-fit:cover;
+    border-radius:25px;
+    transition:.4s;
+}
+
+.arrow{
+    position:absolute;
+    top:50%;
+    transform:translateY(-50%);
+    width:60px;
+    height:60px;
+    border:none;
+    border-radius:50%;
+    background:#e6e60e;
+    box-shadow:0 5px 20px rgba(0,0,0,.15);
+    cursor:pointer;
+    font-size:22px;
+    z-index:10;
+}
+
+.left-btn{
+    left:-25px;
+}
+
+.right-btn{
+    right:-25px;
+}
+
+.thumb-wrapper{
+    display:flex;
+    justify-content:center;
+    gap:14px;
+    margin-top:20px;
+}
+
+.thumb{
+    width:78px;
+    height:78px;
+    border-radius:50%;
+    object-fit:cover;
+    cursor:pointer;
+    border:4px solid white;
+    transition:.3s;
+}
+
+.thumb:hover{
+    transform:scale(1.08);
+}
+
+.thumb.active{
+    border:4px solid #c8a04d;
+}
+
+@media(max-width:991px){
+
+.timeless-section{
+    flex-direction:column;
+}
+
+.timeless-card{
+    width:100%;
+}
+
+.main-image{
+    height:400px;
+}
+
+}
+html{
+    scroll-behavior:smooth;
+}
+
+.navbar{
+    position:fixed;
+    top:0;
+    left:0;
+    width:100%;
+    background:#0f766e;
+    padding:18px 8%;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    z-index:999;
+}
+
+.logo{
+    color:white;
+    font-size:28px;
+    font-weight:bold;
+}
+
+.menu{
+    display:flex;
+    list-style:none;
+    gap:30px;
+}
+
+.menu a{
+    color:white;
+    text-decoration:none;
+    font-size:17px;
+    font-weight:500;
+}
+
+.menu a:hover{
+    color:#f5c26b;
+}
+</style>
+</head>
+<body>
+<nav class="navbar">
+
+    <div class="logo">
+        Tech Resort
+    </div>
+
+    <ul class="menu">
+
+        <li><a href="#amenities">Luxury Amenities</a></li>
+
+        <li><a href="#times">TimeLess Moments</a></li>
+
+
+        <li><a href="#attractions">Nearby Attractions</a></li>
+
+        <li><a href="#gallery">Gallery</a></li>
+
+        <li><a href="#faq">Questions</a></li>
+
+        <li><a href="#booking">Book Stay</a></li>
+
+        <li><a href="#contact">Contact</a></li>
+
+    </ul>
+
+</nav>
+<section class="hero">
+    <video class="hero-video" autoplay muted loop playsinline preload="auto" poster="https://images.unsplash.com/photo-1566073771259-6a8506099945?w=1600" src="https://cdn.pixabay.com/v/video/2022/10/07/03/09/sea-7514407_1280.mp4">
+        Your browser does not support the video tag.
+    </video>
+    <div class="content">
+        <h1>Luxury Tech Resort</h1>
+        <p>Experience Luxury Like Never Before</p>
+    </div>
+</section>
+<section class="experience-section">
+
+<section class="timeless-section" id="times">
+
+    <div class="timeless-card">
+
+        <h1 id="timelessTitle">
+            TIMELESS<br>
+            MOMENTS
+        </h1>
+
+        <p id="timelessText">
+            Wander through our gallery and uncover opulent
+            ballrooms, serene retreats and breathtaking
+            landscapes that set the stage for unforgettable
+            experiences.
+        </p>
+
+        <a href="#" class="explore-btn">
+            Explore More
+            <span>›</span>
+        </a>
+
+    </div>
+
+    <div class="gallery-container">
+
+        <img id="mainImage"
+        class="main-image"
+        src="https://images.unsplash.com/photo-1571896349842-33c89424de2d?w=1600">
+
+        <button class="arrow left-btn" onclick="prevImage()">
+            &#10094;
+        </button>
+
+        <button class="arrow right-btn" onclick="nextImage()">
+            &#10095;
+        </button>
+
+        <div class="thumb-wrapper">
+
+            <img class="thumb active"
+            onclick="setImage(0)"
+            src="https://images.unsplash.com/photo-1571896349842-33c89424de2d?w=300">
+
+            <img class="thumb"
+            onclick="setImage(1)"
+            src="https://images.unsplash.com/photo-1540541338287-41700207dee6?w=300">
+
+            <img class="thumb"
+            onclick="setImage(2)"
+            src="https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?w=300">
+
+            <img class="thumb"
+            onclick="setImage(3)"
+            src="https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=300">
+
+            <img class="thumb"
+            onclick="setImage(4)"
+            src="https://images.unsplash.com/photo-1506744038136-46273834b3fb?w=300">
+
+            <img class="thumb"
+            onclick="setImage(5)"
+            src="https://images.unsplash.com/photo-1494526585095-c41746248156?w=300">
+
+            <img class="thumb"
+            onclick="setImage(6)"
+            src="https://images.unsplash.com/photo-1505693416388-ac5ce068fe85?w=300">
+
+        </div>
+
+    </div>
+
+</section>
+
+    </div>
+
+</section>
+<section class="about-section">
+    <div class="about-inner">
+        <div class="about-copy">
+            <h2>About Our Resort</h2>
+            <p id="aboutText" style="max-width:1000px;margin:auto;text-align:left">
+                Luxury Paradise Resort offers breathtaking views, world-class hospitality, infinity pools,
+                premium suites, spa therapies, fine dining experiences, and unforgettable vacations for families,
+                couples and corporate guests.
+            </p>
+            <div class="about-buttons">
+                <button class="toggle-btn active" onclick="selectAboutCard(0)">Our Story</button>
+                <button class="toggle-btn" onclick="selectAboutCard(1)">Luxury Suites</button>
+                <button class="toggle-btn" onclick="selectAboutCard(2)">Wellness Escape</button>
+            </div>
+            <button class="explore-btn" onclick="showAboutDetail()">Explore Resort</button>
+        </div>
+        <div class="about-cards">
+            <div class="about-card active" onclick="selectAboutCard(0)" data-index="0">
+                <h3>Iconic Hospitality</h3>
+                <p>Personalized service, elegant rooms, and bespoke experiences designed for every guest.</p>
+            </div>
+            <div class="about-card" onclick="selectAboutCard(1)" data-index="1">
+                <h3>Luxury Suites</h3>
+                <p>Exclusive suites with ocean views, private balconies, and designer amenities for a refined stay.</p>
+            </div>
+            <div class="about-card" onclick="selectAboutCard(2)" data-index="2">
+                <h3>Wellness Escape</h3>
+                <p>Relaxing spa rituals, sauna sessions, and curated wellness programs to restore balance.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section>
+<h2>Resort Statistics</h2>
+<div class="stats">
+<div class="stat"><h3>5000+</h3><p>Happy Guests</p></div>
+<div class="stat"><h3>50+</h3><p>Luxury Rooms</p></div>
+<div class="stat"><h3>4.9★</h3><p>Guest Rating</p></div>
+<div class="stat"><h3>10+</h3><p>Years Experience</p></div>
+<div class="stat"><h3>100%</h3><p>Customer Satisfaction</p></div>
+</div>
+</section>
+
+<section id="amenities">
+<h2>Luxury Amenities</h2>
+<div class="grid">
+<div class="card"><img src="https://images.unsplash.com/photo-1571896349842-33c89424de2d?w=1200"><div><h3>Infinity Pool</h3><p>Relax with stunning panoramic views.</p></div></div>
+<div class="card"><img src="https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=1200"><div><h3>Fine Dining</h3><p>World class culinary experience.</p></div></div>
+<div class="card"><img src="https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=1200"><div><h3>Luxury Gym</h3><p>Stay fit with modern equipment.</p></div></div>
+<div class="card"><img src="https://images.unsplash.com/photo-1544161515-4ab6ce6db874?w=1200"><div><h3>Spa & Wellness</h3><p>Premium rejuvenation therapies.</p></div></div>
+<div class="card"><img src="https://images.unsplash.com/photo-1516627145497-ae6968895b74?w=1200"><div><h3>Kids Zone</h3><p>Safe and fun play area.</p></div></div>
+<div class="card"><img src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=1200"><div><h3>Adventure Activities</h3><p>Water sports and outdoor fun.</p></div></div>
+</div>
+</section>
+
+<section id="attractions">
+<h2>Nearby Attractions</h2>
+<div class="grid">
+<div class="card"><img src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=1200"><div><h3>Private Beach</h3></div></div>
+<div class="card"><img src="https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?w=1200"><div><h3>Mountain View</h3></div></div>
+<div class="card"><img src="https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=1200"><div><h3>Water Park</h3></div></div>
+<div class="card"><img src="https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?w=1200"><div><h3>Adventure Zone</h3></div></div>
+</div>
+</section>
+
+<section id="gallery">
+<h2>Gallery</h2>
+<div class="grid gallery gallery-grid">
+    <div class="gallery-item"><img src="https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?w=800" data-full="https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?w=1600" alt="Resort 1"></div>
+    <div class="gallery-item"><img src="https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?w=800" data-full="https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?w=1600" alt="Resort 2"></div>
+    <div class="gallery-item"><img src="https://images.unsplash.com/photo-1506744038136-46273834b3fb?w=800" data-full="https://images.unsplash.com/photo-1506744038136-46273834b3fb?w=1600" alt="Resort 3"></div>
+    <div class="gallery-item"><img src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=800" data-full="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=1600" alt="Resort 4"></div>
+    <div class="gallery-item"><img src="https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=800" data-full="https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=1600" alt="Resort 5"></div>
+    <div class="gallery-item"><img src="https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?w=800" data-full="https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?w=1600" alt="Resort 6"></div>
+    <div class="gallery-item"><img src="https://images.unsplash.com/photo-1540541338287-41700207dee6?w=800" data-full="https://images.unsplash.com/photo-1540541338287-41700207dee6?w=1600" alt="Resort 7"></div>
+    <div class="gallery-item"><img src="https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?w=800" data-full="https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?w=1600" alt="Resort 8"></div>
+    <div class="gallery-item">
+    <img src="https://images.unsplash.com/photo-1566073771259-6a8506099945?w=800"
+         data-full="https://images.unsplash.com/photo-1566073771259-6a8506099945?w=1600"
+         alt="Resort 9">
+</div>
+
+<div class="gallery-item">
+    <img src="https://images.unsplash.com/photo-1578683010236-d716f9a3f461?w=800"
+         data-full="https://images.unsplash.com/photo-1578683010236-d716f9a3f461?w=1600"
+         alt="Resort 10">
+</div>
+</div>
+
+<!-- Lightbox element (hidden until used) -->
+<div id="lightbox" class="lightbox hidden" aria-hidden="true">
+    <div class="lightbox-content">
+        <button class="lightbox-close" aria-label="Close">&times;</button>
+        <div class="lightbox-nav">
+            <button class="lightbox-prev" aria-label="Previous">&#10094;</button>
+            <button class="lightbox-next" aria-label="Next">&#10095;</button>
+        </div>
+        <img src="" alt="Expanded view">
+    </div>
+</div>
+
+</section>
+<section class="faq-section" id="faq">
+    <div class="container">
+        <h2 class="faq-title">Frequently Asked Questions</h2>
+
+        <div class="faq-item active">
+            <div class="faq-question">
+                What are the check-in and check-out timings?
+                <span>+</span>
+            </div>
+            <div class="faq-answer">
+                Check-in is at 2:00 PM and check-out is at 10:00 AM.
+            </div>
+        </div>
+
+         <div class="faq-item active">
+            <div class="faq-question">
+                Which railway station is closest to the resort?
+                <span>+</span>
+            </div>
+            <div class="faq-answer">
+                Kalyan & Thane railway station is the nearest, offering easy access to the resort.
+            </div>
+        </div>
+
+        <div class="faq-item">
+            <div class="faq-question">
+                Do you provide airport transfers?
+                <span>+</span>
+            </div>
+            <div class="faq-answer">
+                Yes, airport pickup and drop services are available on request.
+            </div>
+        </div>
+
+        <div class="faq-item">
+            <div class="faq-question">
+                Is room service available?
+                <span>+</span>
+            </div>
+            <div class="faq-answer">
+                Yes, 24/7 room service is available for all guests.
+            </div>
+        </div>
+
+        <div class="faq-item">
+            <div class="faq-question">
+                Do you have an infinity pool?
+                <span>+</span>
+            </div>
+            <div class="faq-answer">
+                Yes, our resort features a luxury infinity pool with panoramic views.
+            </div>
+        </div>
+
+        <div class="faq-item">
+            <div class="faq-question">
+                Is WiFi available throughout the resort?
+                <span>+</span>
+            </div>
+            <div class="faq-answer">
+                Complimentary high-speed WiFi is available across the property.
+            </div>
+        </div>
+    </div>
+</section>
+<section class="offer"  id="booking">
+<h2>Special Offer</h2>
+<h1>Flat 30% OFF on Early Booking</h1>
+<p>Book Your Dream Vacation Today</p>
+</section>
+
+<section  id="booking">
+<h2>Book Your Stay</h2>
+<div id="roomStatus" class="availability-box">
+    <p><strong>Loading room availability...</strong><br>
+    <span style="color:#475569;font-size:0.95rem;">If this page is opened directly from file system, start the backend server at <code>http://localhost:3000</code>.</span></p>
+</div>
+<form id="bookingForm">
+<input name="fullName" placeholder="Full Name">
+<input name="mobile" placeholder="Mobile Number">
+<input name="email" placeholder="Email">
+<select name="roomType"><option value="Deluxe Room">Deluxe Room</option><option value="Premium Suite">Premium Suite</option></select>
+<textarea name="message" placeholder="Message"></textarea>
+<button type="submit" id="bookingBtn">Book Now</button>
+</form>
+</section>
+
+<section id="contact">
+<div class="contact">
+<h2>Contact Us</h2>
+<p><strong>Address:</strong><br>F-19-A, Haware’s Centurion Mall, Sector 19A, Nerul East, Navi Mumbai, 400706</p><br>
+<p><strong>Phone:</strong> +91 7738415492</p>
+<p><strong>Email:</strong> info@techkraftiersdigital.in</p>
+</div>
+</section>
+
+<script>
+const faqItems = document.querySelectorAll(".faq-item");
+
+faqItems.forEach(item => {
+    item.querySelector(".faq-question").addEventListener("click", () => {
+
+        faqItems.forEach(faq => {
+            if(faq !== item){
+                faq.classList.remove("active");
+            }
+        });
+
+        item.classList.toggle("active");
+    });
+});
+
+</script>
+<script>
+
+const images = [
+
+"https://images.unsplash.com/photo-1571896349842-33c89424de2d?w=1600",
+
+"https://images.unsplash.com/photo-1540541338287-41700207dee6?w=1600",
+
+"https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?w=1600",
+
+"https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=1600",
+
+"https://images.unsplash.com/photo-1506744038136-46273834b3fb?w=1600",
+
+"https://images.unsplash.com/photo-1494526585095-c41746248156?w=1600",
+
+"https://images.unsplash.com/photo-1505693416388-ac5ce068fe85?w=1600"
+
+];
+
+let current = 0;
+
+const mainImage =
+document.getElementById("mainImage");
+
+const thumbs =
+document.querySelectorAll(".thumb");
+
+function updateGallery(){
+
+mainImage.src = images[current];
+
+thumbs.forEach(t=>{
+    t.classList.remove("active");
+});
+
+thumbs[current].classList.add("active");
+
+}
+
+function nextImage(){
+
+current++;
+
+if(current >= images.length){
+current = 0;
+}
+
+updateGallery();
+
+}
+
+function prevImage(){
+
+current--;
+
+if(current < 0){
+current = images.length - 1;
+}
+
+updateGallery();
+
+}
+
+function setImage(index){
+
+current = index;
+
+updateGallery();
+}
+
+const aboutVariants = [
+    "Luxury Paradise Resort offers breathtaking views, world-class hospitality, infinity pools, premium suites, spa therapies, fine dining experiences, and unforgettable vacations for families, couples and corporate guests.",
+    "Our luxury suites combine elegant décor with ocean-view balconies, premium amenities, and thoughtful services designed to create a truly rejuvenating retreat.",
+    "Renew your body and mind with our wellness experiences, from calming spa therapies to personalized fitness and restorative leisure curated for every guest."
+];
+
+function selectAboutCard(index){
+    const buttons = document.querySelectorAll('.toggle-btn');
+    const cards = document.querySelectorAll('.about-card');
+    buttons.forEach((btn,i)=> btn.classList.toggle('active', i === index));
+    cards.forEach((card,i)=> card.classList.toggle('active', i === index));
+    const text = document.getElementById('aboutText');
+    if(text){
+        text.innerHTML = aboutVariants[index];
+    }
+}
+
+function showAboutDetail(){
+    const activeCard = document.querySelector('.about-card.active');
+    const currentIndex = activeCard ? Number(activeCard.dataset.index) : 0;
+    selectAboutCard((currentIndex + 1) % aboutVariants.length);
+}
+
+setInterval(nextImage,4000);
+
+</script>
+<script>
+// Gallery lightbox (non-invasive)
+(function(){
+    const gallery = document.querySelectorAll('.gallery-item img');
+    const lightbox = document.getElementById('lightbox');
+    const lbImg = lightbox && lightbox.querySelector('img');
+    const closeBtn = lightbox && lightbox.querySelector('.lightbox-close');
+    const prevBtn = lightbox && lightbox.querySelector('.lightbox-prev');
+    const nextBtn = lightbox && lightbox.querySelector('.lightbox-next');
+    let currentIndex = 0;
+
+    if(!lightbox) return;
+
+    function openLightbox(index){
+        const img = gallery[index];
+        if(!img) return;
+        const full = img.getAttribute('data-full') || img.src;
+        lbImg.src = full;
+        lightbox.classList.remove('hidden');
+        lightbox.setAttribute('aria-hidden','false');
+        currentIndex = index;
+    }
+
+    function closeLightbox(){
+        lightbox.classList.add('hidden');
+        lightbox.setAttribute('aria-hidden','true');
+        lbImg.src = '';
+    }
+
+    function showNext(){
+        currentIndex = (currentIndex + 1) % gallery.length;
+        openLightbox(currentIndex);
+    }
+
+    function showPrev(){
+        currentIndex = (currentIndex - 1 + gallery.length) % gallery.length;
+        openLightbox(currentIndex);
+    }
+
+    gallery.forEach((img, i)=>{
+        img.style.cursor = 'zoom-in';
+        img.addEventListener('click',()=>openLightbox(i));
+    });
+
+    closeBtn && closeBtn.addEventListener('click', closeLightbox);
+    nextBtn && nextBtn.addEventListener('click', showNext);
+    prevBtn && prevBtn.addEventListener('click', showPrev);
+
+    lightbox.addEventListener('click',(e)=>{
+        if(e.target === lightbox) closeLightbox();
+    });
+
+    document.addEventListener('keydown', (e)=>{
+        if(lightbox.classList.contains('hidden')) return;
+        if(e.key === 'Escape') closeLightbox();
+        if(e.key === 'ArrowRight') showNext();
+        if(e.key === 'ArrowLeft') showPrev();
+    });
+})();
+
+// Backend integration (non-invasive). Uses the current host when served over HTTP.
+const BACKEND_BASE = window.location.protocol.startsWith('http') ? window.location.origin : '';
+
+(function(){
+    const roomStatusEl = document.getElementById('roomStatus');
+
+    async function fetchContent(){
+        if(!BACKEND_BASE) return;
+        try{
+            const [aboutRes, timelessRes] = await Promise.all([
+                fetch(BACKEND_BASE + '/content/about'),
+                fetch(BACKEND_BASE + '/content/timeless')
+            ]);
+
+            if(aboutRes.ok){
+                const data = await aboutRes.json();
+                if(data && data.content){
+                    const el = document.getElementById('aboutText');
+                    if(el) el.innerHTML = data.content;
+                }
+            }
+
+            if(timelessRes.ok){
+                const data = await timelessRes.json();
+                if(data){
+                    const title = document.getElementById('timelessTitle');
+                    const text = document.getElementById('timelessText');
+                    if(data.title && title) title.innerHTML = data.title.replace(/\n/g,'<br>');
+                    if(data.content && text) text.innerHTML = data.content;
+                }
+            }
+        }catch(e){
+            console.warn('Content fetch failed', e);
+        }
+    }
+
+    function renderRoomStatus(data){
+        if(!roomStatusEl) return;
+        if(!data){
+            roomStatusEl.innerHTML = '';
+            return;
+        }
+        const roomLines = Object.entries(data.status).map(([roomType, details]) => {
+            return `<strong>${roomType}:</strong> ${details.available} available / ${details.booked} booked / ${details.total} total`;
+        }).join('<br>');
+        roomStatusEl.innerHTML = `<p><strong>Live room availability</strong></p><p>${roomLines}</p><p style="margin-top:8px;color:#475569;font-size:0.95rem;">Total rooms: ${data.totalRooms}, Available now: ${data.totalAvailable}</p>`;
+    }
+
+    async function fetchRoomStatus(){
+        if(!BACKEND_BASE) {
+            if(roomStatusEl) roomStatusEl.innerHTML = '<p><strong>Open this page via the backend server to enable room tracking.</strong></p>';
+            return;
+        }
+        try{
+            const res = await fetch(BACKEND_BASE + '/room-status');
+            if(res.ok){
+                const data = await res.json();
+                renderRoomStatus(data);
+            } else {
+                renderRoomStatus(null);
+            }
+        }catch(e){
+            console.warn('Room status fetch failed', e);
+            renderRoomStatus(null);
+        }
+    }
+
+    fetchContent();
+    fetchRoomStatus();
+
+    const bookingForm = document.getElementById('bookingForm');
+    if(!bookingForm) return;
+
+    bookingForm.addEventListener('submit', async function(e){
+        e.preventDefault();
+        const submitBtn = document.getElementById('bookingBtn');
+        const formData = {
+            fullName: (bookingForm.querySelector('input[name="fullName"]') || {}).value || '',
+            mobile: (bookingForm.querySelector('input[name="mobile"]') || {}).value || '',
+            email: (bookingForm.querySelector('input[name="email"]') || {}).value || '',
+            roomType: (bookingForm.querySelector('select[name="roomType"]') || {}).value || '',
+            message: (bookingForm.querySelector('textarea[name="message"]') || {}).value || '',
+            timestamp: new Date().toISOString()
+        };
+
+        if(!BACKEND_BASE){
+            alert('Booking data (preview):\n' + JSON.stringify(formData, null, 2));
+            bookingForm.reset();
+            return;
+        }
+
+        if(submitBtn) submitBtn.disabled = true;
+        try{
+            const res = await fetch(BACKEND_BASE + '/bookings', {
+                method: 'POST',
+                headers: {'Content-Type':'application/json'},
+                body: JSON.stringify(formData)
+            });
+
+            const result = await res.json();
+            if(res.ok){
+                alert('Booking submitted successfully. We will contact you shortly.');
+                bookingForm.reset();
+                renderRoomStatus(result.roomStatus || null);
+            } else {
+                alert('Booking failed: ' + (result.error || res.statusText));
+                if(result.roomStatus) renderRoomStatus(result.roomStatus);
+            }
+        }catch(err){
+            console.error(err);
+            alert('Network error while submitting booking.');
+        }finally{
+            if(submitBtn) submitBtn.disabled = false;
+        }
+    });
+})();
+</script>
+</body>
+</html>
